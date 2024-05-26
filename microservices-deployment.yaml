@@ -1,0 +1,233 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-deployment
+  namespace: maharati
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: booking
+  template:
+    metadata:
+      labels:
+        app: booking
+    spec:
+      containers:
+        - name: booking
+          image: dhouhaaoui/booking:latest
+          ports:
+            - containerPort: 3008
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-service
+  namespace: maharati
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3008
+      targetPort: 3008
+  selector:
+    app: booking
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  namespace: maharati
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: dhouhaaoui/auth:latest
+          ports:
+            - containerPort: 3004
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: maharati
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3004
+      targetPort: 3004
+  selector:
+    app: auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comments-deployment
+  namespace: maharati
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: comments
+  template:
+    metadata:
+      labels:
+        app: comments
+    spec:
+      containers:
+        - name: comments
+          image: dhouhaaoui/comments:latest
+          ports:
+            - containerPort: 3007
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: comments-service
+  namespace: maharati
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3007
+      targetPort: 3007
+  selector:
+    app: comments
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: services-deployment
+  namespace: maharati
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: services
+  template:
+    metadata:
+      labels:
+        app: services
+    spec:
+      containers:
+        - name: services
+          image: dhouhaaoui/services:latest
+          ports:
+            - containerPort: 3002
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: services-service
+  namespace: maharati
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3002
+      targetPort: 3002
+  selector:
+    app: services
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demandes-deployment
+  namespace: maharati
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demandes
+  template:
+    metadata:
+      labels:
+        app: demandes
+    spec:
+      containers:
+        - name: demandes
+          image: dhouhaaoui/demandes:latest
+          ports:
+            - containerPort: 3009
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demandes-service
+  namespace: maharati
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3009
+      targetPort: 3009
+  selector:
+    app: demandes
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: providers-deployment
+  namespace: maharati
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: providers
+  template:
+    metadata:
+      labels:
+        app: providers
+    spec:
+      containers:
+        - name: providers
+          image: dhouhaaoui/providers:latest
+          ports:
+            - containerPort: 3006
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: app-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: providers-service
+  namespace: maharati
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3006
+      targetPort: 3006
+  selector:
+    app: providers
